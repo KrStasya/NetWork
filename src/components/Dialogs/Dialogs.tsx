@@ -10,18 +10,27 @@ export type dialogspropstypeType ={
 }
 
 const Dialogs = (props: dialogspropstypeType ) => {
-    let NameElement =props.dialogs.map(n=> <DialogItem name ={n.name} id = {n.id}/>)
-    let MessageElement =props.messages.map(m=> <Message message={m.message}/>  )
-
-    return (
-        <div className={classes.dialogs}>
-            <div className={classes.dialogItems}>
-                {NameElement}
+    let NameElement = props.dialogs.map(n => <DialogItem name={n.name} id={n.id}/>)
+    let MessageElement = props.messages.map(m => <Message message={m.message}/>)
+ /*   let newMessageElement = React.createRef()
+    const AddMessage = () => {
+        /!*   let text=newMessageElement.current.value
+       }*!/*/
+        return (
+            <div className={classes.dialogs}>
+                <div className={classes.dialogItems}>
+                    {NameElement}
+                </div>
+                <div className={classes.messages}>
+                    {MessageElement}
+                </div>
+           {/*     <div>
+                       <textarea ref={newMessageElement}></textarea>
+                </div>
+                <div className={classes.AddPost}>
+                    <button onClick={AddMessage}>Add post</button>
+                </div>*/}
             </div>
-            <div className={classes.messages}>
-                {MessageElement}
-            </div>
-        </div>
-    )
-}
+        )
+    }
 export default Dialogs
