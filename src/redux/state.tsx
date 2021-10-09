@@ -2,6 +2,7 @@
 export type dialogspropstypeType ={
     dialogs: Array<dialogsType>
     messages: Array<messagesType>
+    newMessage:string
 }
  export type postType ={
     id: string
@@ -48,18 +49,45 @@ export type StoreType={
     getState:()=>stateType
     subscribe:(callback:()=>void)=>void
     dispatch:(action:ActionType)=>void
-}
-type AddPostActionType={
-    type: 'ADD-POST'
-    newPostText:string
+    AddMessage:(newMessage:string)=>void
+    newMessageAdd:(newMessageText:string)=>void
 }
 
-type ChangeNewTextActionType={
-    type: 'UPDETE-NEW-POST-TEXT'
-    newPost:string
+type AddPostActionType=ReturnType<typeof addPostAC>
+type ChangeNewTextActionType=ReturnType<typeof newPostTextChangeAC>
+type AddMessageACActionType=ReturnType<typeof addMessageAC>
+type newMessageChangeAddACActionType=ReturnType<typeof newMessageChangeAddAC>
+
+export type ActionType=AddPostActionType |
+    ChangeNewTextActionType |
+    AddMessageACActionType |
+    newMessageChangeAddACActionType
+
+export const addPostAC=(newPostText:string)=>{
+    return {
+        type : 'ADD-POST',
+        newPostText: newPostText
+    } as const
+}
+export const newPostTextChangeAC=(newPost:string)=>{
+    return {
+        type : 'UPDETE-NEW-POST-TEXT',
+        newPost:newPost
+    }as const
+}
+export const addMessageAC=(newMessage:string)=>{
+    return {
+        type : 'ADD-NEW-POST-MESSAGE',
+        newMessage:newMessage
+    }as const
+}
+export const newMessageChangeAddAC=(newMessageText:string)=>{
+    return {
+        type: 'MESSAGE-CHANGED',
+        newMessageText:newMessageText
+    }as const
 }
 
-export type ActionType=AddPostActionType|ChangeNewTextActionType
 let store:StoreType={
     _state: {
         profilePage: {
@@ -77,6 +105,7 @@ let store:StoreType={
                 {id: '1', message: 'Hi'},
                 {id: '2', message: 'Yo'},
             ],
+            newMessage: 'Новое сообщение',
             dialogs: [
                 {id: '1', name: 'Anna'},
                 {id: '2', name: 'Bob'},
@@ -106,6 +135,16 @@ let store:StoreType={
         this._onChange ();
     },
 
+    AddMessage (newMessage:string) {
+        this._state.messagesPage.messages.push({id: String(new Date().getTime()),message:newMessage})
+        this._state.messagesPage.newMessage=''
+        this._onChange ();
+    },
+    newMessageAdd (newMessageText:string) {
+        this._state.messagesPage.newMessage=newMessageText
+        this._onChange ();
+    },
+
     dispatch(action) {
       if (action.type==='ADD-POST') {
           this._state.profilePage.posts.push({id : String( new Date().getTime()),message: action.newPostText,LikeCount: 0})
@@ -114,11 +153,16 @@ let store:StoreType={
       } else if (action.type==='UPDETE-NEW-POST-TEXT') {
           this._state.profilePage.newPostText=action.newPost
           this._onChange ();
+      } else if ( action.type ==='ADD-NEW-POST-MESSAGE') {
+          this._state.messagesPage.messages.push({id: String(new Date().getTime()),message:action.newMessage})
+          this._state.messagesPage.newMessage=''
+          this._onChange ();
+      } else if (action.type==='MESSAGE-CHANGED') {
+          this._state.messagesPage.newMessage=action.newMessageText
+          this._onChange ();
       }
 
     }
-
-
 }
 // @ts-ignore
 window.store=store

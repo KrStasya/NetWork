@@ -26,14 +26,17 @@ const App: React.FC<PropsType>= (props) => {
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
                     <Route path='/profile'
-                           render={()=> <Profile /*AddPost={props.store.AddPost.bind(props.store)}
-                                                 ChangePost={props.store.ChangePost.bind(props.store)}*/
+                           render={()=> <Profile
                                                  dispatch={props.store.dispatch.bind(props.store)}
                                                  posts={state.profilePage.posts}
                                                  newPostText={state.profilePage.newPostText}/>}/>
                     <Route exact path='/dialogs'
-                           render={()=> <Dialogs dialogs={store.getState().messagesPage.dialogs}
-                                                 messages={store.getState().messagesPage.messages}/>}/>
+                           render={()=> <Dialogs dialogs={state.messagesPage.dialogs}
+                                                 newMessage={state.messagesPage.newMessage}
+                                                 messages={state.messagesPage.messages}
+                                                 dispatch={props.store.dispatch.bind(props.store)}
+                           />}
+                    />
                     {/*<Route path='/friends' render={()=> <Friends />}/>*/}
                  {/* <Route path='/profile' render={()=> <Profile posts={props.posts}/>}/>
                     <Route exact path='/dialogs' render={()=> <Dialogs dialogs={props.dialogs} messages={props.messages}/>}/>*/}
