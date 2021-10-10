@@ -9,17 +9,16 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
-import store, {StoreType} from "./redux/state";
-
+import {AppRootType} from "./redux/reduxstore";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+//import  {StoreType} from "./redux/store";
 
 
  type PropsType={
-    store: StoreType
+   // store: any
 }
 
-
 const App: React.FC<PropsType>= (props) => {
-    const state=props.store.getState()
     return (
             <div className={'app-wrapper'}>
                 <Header/>
@@ -27,15 +26,18 @@ const App: React.FC<PropsType>= (props) => {
                 <div className={'app-wrapper-content'}>
                     <Route path='/profile'
                            render={()=> <Profile
-                                                 dispatch={props.store.dispatch.bind(props.store)}
-                                                 posts={state.profilePage.posts}
-                                                 newPostText={state.profilePage.newPostText}/>}/>
+                                                //dispatch={props.store.dispatch.bind(props.store)}
+                                                // posts={state.profilePage.posts}
+                                                 //newPostText={state.profilePage.newPostText}
+                           />}/>
                     <Route exact path='/dialogs'
-                           render={()=> <Dialogs dialogs={state.messagesPage.dialogs}
+                           render={()=> <DialogsContainer/>
+                              /* <Dialogs
+                                                 dialogs={state.messagesPage.dialogs}
                                                  newMessage={state.messagesPage.newMessage}
-                                                 messages={state.messagesPage.messages}
-                                                 dispatch={props.store.dispatch.bind(props.store)}
-                           />}
+                                                messages={state.messagesPage.messages}
+                                                 dispatch={props.store.dispatch.bind(props.store)}/>*/
+                           }
                     />
                     {/*<Route path='/friends' render={()=> <Friends />}/>*/}
                  {/* <Route path='/profile' render={()=> <Profile posts={props.posts}/>}/>

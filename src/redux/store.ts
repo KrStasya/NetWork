@@ -1,26 +1,30 @@
+import {AddPostActionType, ChangeNewTextActionType, profileReducer} from "./profileReducer";
+import {AddMessageACActionType, dialogReducer, newMessageChangeAddACActionType,} from "./dialogReducer";
 
-export type dialogspropstypeType ={
+/*type dialogspropstypeType ={
     dialogs: Array<dialogsType>
     messages: Array<messagesType>
     newMessage:string
 }
- export type postType ={
+ type postType ={
     id: string
     message: string
     LikeCount: number
 }
- export type profilepostsType ={
+ type profilepostsType ={
     posts: Array<postType>
      newPostText: string
 }
- export type dialogsType={
+ type dialogsType={
     id: string
     name: string
 }
- export type messagesType={
+type messagesType={
     id: string
     message: string
-}
+}*/
+
+
 export type sidebarpropsType ={
     friends: Array<string>
 }
@@ -35,13 +39,13 @@ export const subscribe=(callback:()=>void)=>{
     onChange=callback
 }*/
 
-export type stateType ={
-    profilePage: profilepostsType
-    messagesPage: dialogspropstypeType
-    sidebar:  sidebarpropsType
+type stateType ={
+   // profilePage: profilepostsType
+   // messagesPage: dialogspropstypeType
+    //sidebar:  sidebarpropsType
 }
 
-export type StoreType={
+ type StoreType={
     _state: stateType
     ChangePost:(newPost:string)=>void
     AddPost:(newPostText:string)=>void
@@ -53,42 +57,15 @@ export type StoreType={
     newMessageAdd:(newMessageText:string)=>void
 }
 
-type AddPostActionType=ReturnType<typeof addPostAC>
-type ChangeNewTextActionType=ReturnType<typeof newPostTextChangeAC>
-type AddMessageACActionType=ReturnType<typeof addMessageAC>
-type newMessageChangeAddACActionType=ReturnType<typeof newMessageChangeAddAC>
 
-export type ActionType=AddPostActionType |
+ type ActionType=AddPostActionType |
     ChangeNewTextActionType |
     AddMessageACActionType |
     newMessageChangeAddACActionType
 
-export const addPostAC=(newPostText:string)=>{
-    return {
-        type : 'ADD-POST',
-        newPostText: newPostText
-    } as const
-}
-export const newPostTextChangeAC=(newPost:string)=>{
-    return {
-        type : 'UPDETE-NEW-POST-TEXT',
-        newPost:newPost
-    }as const
-}
-export const addMessageAC=(newMessage:string)=>{
-    return {
-        type : 'ADD-NEW-POST-MESSAGE',
-        newMessage:newMessage
-    }as const
-}
-export const newMessageChangeAddAC=(newMessageText:string)=>{
-    return {
-        type: 'MESSAGE-CHANGED',
-        newMessageText:newMessageText
-    }as const
-}
 
-let store:StoreType={
+
+/*let store:StoreType={
     _state: {
         profilePage: {
             posts: [
@@ -97,7 +74,7 @@ let store:StoreType={
                 {id: '3', message: 'Let\'s gO', LikeCount: 10},
                 {id: '4', message: 'Amazing!!!', LikeCount: 10},
             ],
-            newPostText: 'Новый пост'
+            newPostText: ''
 
         },
         messagesPage: {
@@ -105,7 +82,7 @@ let store:StoreType={
                 {id: '1', message: 'Hi'},
                 {id: '2', message: 'Yo'},
             ],
-            newMessage: 'Новое сообщение',
+            newMessage: '',
             dialogs: [
                 {id: '1', name: 'Anna'},
                 {id: '2', name: 'Bob'},
@@ -146,27 +123,16 @@ let store:StoreType={
     },
 
     dispatch(action) {
-      if (action.type==='ADD-POST') {
-          this._state.profilePage.posts.push({id : String( new Date().getTime()),message: action.newPostText,LikeCount: 0})
-          this._state.profilePage.newPostText=''
-          this._onChange ();
-      } else if (action.type==='UPDETE-NEW-POST-TEXT') {
-          this._state.profilePage.newPostText=action.newPost
-          this._onChange ();
-      } else if ( action.type ==='ADD-NEW-POST-MESSAGE') {
-          this._state.messagesPage.messages.push({id: String(new Date().getTime()),message:action.newMessage})
-          this._state.messagesPage.newMessage=''
-          this._onChange ();
-      } else if (action.type==='MESSAGE-CHANGED') {
-          this._state.messagesPage.newMessage=action.newMessageText
-          this._onChange ();
-      }
+
+        this._state.profilePage=profileReducer(this._state.profilePage,action)
+        this._state.messagesPage=dialogReducer(this._state.messagesPage,action)
+        this._onChange ();
 
     }
-}
+}*/
 // @ts-ignore
-window.store=store
-export default store
+//window.store=store
+//export default store
 
 
 

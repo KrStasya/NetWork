@@ -3,13 +3,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
 import ReactDOM from 'react-dom';
-import store from "./redux/state";
+//import store from "./redux/store";
+import {AppRootType} from "./redux/reduxstore";
 
 
-export let rerenderEntereTree =()=> {
+export let rerenderEntereTree =(state:AppRootType)=> {
     ReactDOM.render(
             <BrowserRouter>
-                <App store={store}/>
+                <App />
             </BrowserRouter>,
         document.getElementById('root')
     );
