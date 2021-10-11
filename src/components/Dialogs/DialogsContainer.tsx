@@ -1,30 +1,42 @@
 import React from "react";
-import { addMessageAC, newMessageChangeAddAC} from "../../redux/dialogReducer";
+import {addMessageAC, dialogspropstypeType, newMessageChangeAddAC} from "../../redux/dialogReducer";
 import Dialogs from "./Dialogs";
-import {store} from "../../redux/reduxstore";
+import {AppRootType, store} from "../../redux/reduxstore";
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
-export type dialogspropstypeType ={
-    //dialogs: Array<dialogsType>,
-    //messages: Array<messagesType>
-   // newMessage:string
-    //dispatch: (action: ActionType) => void
+
+type mapStateToPropsType={
+    messagesPage:dialogspropstypeType
 }
 
-const DialogsContainer = (props: dialogspropstypeType ) => {
-    let state=store.getState()
-    let newMessageAdd=(text:string)=>{
-        store.dispatch(newMessageChangeAddAC(text))
-    }
-    const AddMessage=()=>{
-        store.dispatch(addMessageAC(store.getState().messagesPage.newMessage))
-    }
+type mapDispatchToPropsType ={
+    ChangeMessage:(t:string)=>void
+    AddMessage:()=>void
+}
 
-        return (
-           <Dialogs dialogs={state.messagesPage.dialogs}
-                    messages={state.messagesPage.messages}
-                    newMessage={state.messagesPage.newMessage}
-                    AddMessage={AddMessage}
-                    ChangeMessage={newMessageAdd}/>
-        )
+export type dialigPropsType =mapStateToPropsType&mapDispatchToPropsType
+
+    let mapStateToProps =(state:AppRootType):mapStateToPropsType=>{
+    return {
+        messagesPage: state.messagesPage,
     }
+    }
+    let mapDispatchToProps =(dispatch:Dispatch):mapDispatchToPropsType=>{
+    return {
+        ChangeMessage:(text:string)=>{
+            dispatch(newMessageChangeAddAC(text))
+        },
+        AddMessage:()=>{
+            dispatch(addMessageAC(store.getState().messagesPage.newMessage))
+        },
+    }
+    }
+ const DialogsContainer=connect(mapStateToProps,mapDispatchToProps)(Dialogs);
+
 export default DialogsContainer
+
+
+
+
+

@@ -1,24 +1,15 @@
 import React, {ChangeEvent} from "react";
-//import {addPostAC, newPostTextChangeAC } from "../../../redux/profileReducer";
-//import {ActionType} from '../../../redux/store';
 import classes from './Myposts.module.css'
 import Post from "./Post/Post"
-import {postType} from "../../../redux/profileReducer";
-
-type postsType = {
-    posts: Array<postType>
-    AddPost:(postMessage:string) => void
-    ChangePost:(newPost:string)=>void
-    newPostText: string
-    //dispatch: (action: ActionType) => void
-}
+import {postsPropsType} from "./MypostsContainer";
 
 
-const Myposts = (props: postsType) => {
+
+const Myposts = (props: postsPropsType) => {
 
 
     let PostElement =
-        props.posts.map(p => <Post message={p.message} count={p.LikeCount}/>)
+        props.profilePage.posts.map(p => <Post message={p.message} count={p.LikeCount}/>)
 
     let newPostTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
          props.ChangePost(e.currentTarget.value)
@@ -27,7 +18,7 @@ const Myposts = (props: postsType) => {
     }
 
     const AddPost = () => {
-        props.AddPost(props.newPostText)
+        props.AddPost(props.profilePage.newPostText)
         // props.dispatch({type:'ADD-POST',newPostText:props.newPostText})
        //props.dispatch(addPostAC(props.newPostText))
     }
@@ -38,7 +29,7 @@ const Myposts = (props: postsType) => {
         </div>
         <div>
             <textarea
-                value={props.newPostText}
+                value={props.profilePage.newPostText}
                 onChange={newPostTextChange}/>
         </div>
         <div className={classes.AddMessage}>

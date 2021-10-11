@@ -21,7 +21,7 @@ export type messagesType={
     message: string
 }
 
-const initialState={
+const initialState:dialogspropstypeType={
         messages: [
             {id: '1', message: 'Hi'},
             {id: '2', message: 'Yo'},
@@ -37,6 +37,7 @@ const initialState={
 export const dialogReducer =(state:dialogspropstypeType=initialState, action:ActionType):dialogspropstypeType=>{
     switch (action.type) {
         case 'ADD-NEW-POST-MESSAGE':
+        //{state.messages.map() {id: String(new Date().getTime()), message: action.newMessage}}
             state.messages.push({id: String(new Date().getTime()), message: action.newMessage})
             state.newMessage = ''
             return state

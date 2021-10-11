@@ -45,7 +45,7 @@ type stateType ={
     //sidebar:  sidebarpropsType
 }
 
- type StoreType={
+ export type StoreType={
     _state: stateType
     ChangePost:(newPost:string)=>void
     AddPost:(newPostText:string)=>void
