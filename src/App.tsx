@@ -10,6 +10,8 @@ import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
 import {AppRootType} from "./redux/reduxstore";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import Users from "./components/Users/Users";
+import UsersContainer from './components/Users/UsersContainer';
 
 
 //import  {StoreType} from "./redux/store";
@@ -33,8 +35,6 @@ const App: React.FC<PropsType>= (props) => {
                            />}/>
                     <Route exact path='/dialogs'
                            render={()=> <DialogsContainer/>
-
-
                               /* <Dialogs
                                                  dialogs={state.messagesPage.dialogs}
                                                  newMessage={state.messagesPage.newMessage}
@@ -42,6 +42,8 @@ const App: React.FC<PropsType>= (props) => {
                                                  dispatch={props.store.dispatch.bind(props.store)}/>*/
                            }
                     />
+                    <Route path='/users'
+                           render={()=> <UsersContainer/>}/>
                     {/*<Route path='/friends' render={()=> <Friends />}/>*/}
                  {/* <Route path='/profile' render={()=> <Profile posts={props.posts}/>}/>
                     <Route exact path='/dialogs' render={()=> <Dialogs dialogs={props.dialogs} messages={props.messages}/>}/>*/}
