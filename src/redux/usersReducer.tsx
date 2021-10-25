@@ -1,29 +1,36 @@
 export type ActionType = followAType |
-    unfollowAType | setUsersAType
+    unfollowAType |
+    setUsersAType |
+    setCurrentPageType |
+    setTotalUsersCountType|
+    FetchingType
 
 export type UsersType ={
     users: Array<userType>
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage:number,
+    isFetching: boolean
 }
 
 export type userType ={
-    id: string
+    id: number
     name: string
     followed:boolean
     status:string
-    avatar:string
+    photos:any
     lokation:{city:string,country:string}
 }
-const initialState:UsersType= {
-        users: [
-            {id: '1', avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtMABLJeg63NFM48-xzr1hUTH_Sl1jGj1M3w&usqp=CAU",
-                followed:false, name: 'Hi, how are you?', lokation: {city:"Minsk",country:"Belarus"}, status:"Big boss"},
-            {id: '2', avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtMABLJeg63NFM48-xzr1hUTH_Sl1jGj1M3w&usqp=CAU",
-                followed:true, name: 'Hi, how are you?', lokation: {city:"Minsk",country:"Belarus"}, status:"Big boss"},
-            {id: '3', avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtMABLJeg63NFM48-xzr1hUTH_Sl1jGj1M3w&usqp=CAU",
-                followed:false, name: 'Hi, how are you?', lokation: {city:"Minsk",country:"Belarus"}, status:"Big boss"},
 
-        ],
-    }
+
+const initialState: UsersType = {
+    users: [],
+    pageSize: 10,
+    totalUsersCount: 0,
+    currentPage:2,
+    isFetching: true
+
+}
 
 export const usersReducer =(state:UsersType=initialState,action:ActionType):UsersType=>{
     switch (action.type) {
@@ -32,33 +39,63 @@ export const usersReducer =(state:UsersType=initialState,action:ActionType):User
         case "UNFOLLOW":
             return {...state, users:state.users.map(m=> m.id === action.userId?{...m,followed:!m.followed}:m)}
         case "SET-USERS":
-        return {...state,users: [...state.users,...action.users]}
+        return {...state,users:action.users}
+        //{...state,users: [...state.users,...action.users]}
+        case "SET-CURRENT-PAGE":
+            return {...state,currentPage:action.currentPage}
+        case 'SET-TOTAL-COUNT-USERS':
+            return {...state,totalUsersCount:action.totalUsersCount}
+        case "SET-FETCHING":
+            return {...state,isFetching:action.isFetching}
         default:
             return state
     }
 
 }
 
-export const followAC=(userId:string)=>{
+export const changefollowtrue=(userId:number)=>{
     return {
         type : 'FOLLOW',
-        userId: userId,
+        userId,
     } as const
 }
-export const unfollowAC=(userId:string)=>{
+export const changefollowfalse=(userId:number)=>{
     return {
         type : 'UNFOLLOW',
-        userId: userId,
+        userId,
     }as const
 }
 
-export const setUsersAC=(users:UsersType)=>{
+export const setUsers=(users:Array<userType>)=>{
     return {
         type : 'SET-USERS',
-        users: [],
+        users,
+    }as const
+}
+export const setCurrentPage=(currentPage:number)=>{
+    return {
+        type : 'SET-CURRENT-PAGE',
+        currentPage,
     }as const
 }
 
-export type followAType=ReturnType<typeof followAC>
-export type unfollowAType=ReturnType<typeof unfollowAC>
-export type setUsersAType=ReturnType<typeof setUsersAC>
+export const setTotalUsersCount=(totalUsersCount:number)=>{
+    return{
+        type: 'SET-TOTAL-COUNT-USERS',
+        totalUsersCount
+    }as const
+}
+export const setFetching=(isFetching:boolean)=>{
+    return{
+        type: 'SET-FETCHING',
+        isFetching
+    }as const
+}
+
+
+export type followAType=ReturnType<typeof changefollowtrue>
+export type unfollowAType=ReturnType<typeof changefollowfalse>
+export type setUsersAType=ReturnType<typeof setUsers>
+export type setCurrentPageType=ReturnType<typeof setCurrentPage>
+export type setTotalUsersCountType=ReturnType<typeof setTotalUsersCount>
+export type FetchingType=ReturnType<typeof setFetching>

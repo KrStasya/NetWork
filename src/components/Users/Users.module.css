@@ -2,3 +2,13 @@
     height: 100px;
     width: 100px;
 }
+
+.selectedPage {
+font-weight: bold;
+}
+
+.scanning {
+    display:flex;
+    justify-content: center;
+    margin-top: 50px;
+}

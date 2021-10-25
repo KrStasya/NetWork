@@ -18,7 +18,7 @@ const Myposts = (props: postsPropsType) => {
     }
 
     const AddPost = () => {
-        props.AddPost(props.profilePage.newPostText)
+        props.AddPost()
         // props.dispatch({type:'ADD-POST',newPostText:props.newPostText})
        //props.dispatch(addPostAC(props.newPostText))
     }

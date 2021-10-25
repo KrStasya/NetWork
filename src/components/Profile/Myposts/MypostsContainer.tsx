@@ -50,7 +50,7 @@ type mapStateToPropsType={
 
 type mapDispatchToPropsType ={
     ChangePost:(text:string)=>void
-    AddPost:(t:string)=>void
+    AddPost:()=>void
 }
 
 export type postsPropsType=mapDispatchToPropsType&mapStateToPropsType

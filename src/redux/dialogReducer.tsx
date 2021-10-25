@@ -37,13 +37,19 @@ const initialState:dialogspropstypeType={
 export const dialogReducer =(state:dialogspropstypeType=initialState, action:ActionType):dialogspropstypeType=>{
     switch (action.type) {
         case 'ADD-NEW-POST-MESSAGE':
+       //return  {...state,messages:[...state.messages.map(m=>{m.id= String(new Date().getTime()), m.message= action.newMessage},...state)]}
+            //let stateCopy = {...state}
+            //stateCopy.messages = [...state.messages]
+            //stateCopy.messages.push({id: String(new Date().getTime()), message: action.newMessage})
+            //stateCopy.newMessage = ""
         //{state.messages.map() {id: String(new Date().getTime()), message: action.newMessage}}
-            state.messages.push({id: String(new Date().getTime()), message: action.newMessage})
-            state.newMessage = ''
-            return state
+           // state.messages.push({id: String(new Date().getTime()), message: action.newMessage})
+            //state.newMessage = ''
+            return {...state,
+                newMessage:"",
+            messages:[{id: String(new Date().getTime()), message: action.newMessage},...state.messages]}
         case 'MESSAGE-CHANGED':
-            state.newMessage = action.newMessageText
-            return state
+            return {...state,newMessage: action.newMessageText}
         default:
             return state
     }

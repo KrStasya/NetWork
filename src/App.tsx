@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
-import Profile from "./components/Profile/Profile";
 import { Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -10,8 +9,8 @@ import Settings from "./components/Settings/Settings";
 import Friends from './components/Friends/Friends';
 import {AppRootType} from "./redux/reduxstore";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import Users from "./components/Users/Users";
 import UsersContainer from './components/Users/UsersContainer';
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 //import  {StoreType} from "./redux/store";
@@ -27,19 +26,10 @@ const App: React.FC<PropsType>= (props) => {
                 <Header/>
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path='/profile'
-                           render={()=> <Profile
-                                                //dispatch={props.store.dispatch.bind(props.store)}
-                                                // posts={state.profilePage.posts}
-                                                 //newPostText={state.profilePage.newPostText}
-                           />}/>
+                    <Route path='/profile/:userId?'
+                           render={()=> <ProfileContainer/>}/>
                     <Route exact path='/dialogs'
                            render={()=> <DialogsContainer/>
-                              /* <Dialogs
-                                                 dialogs={state.messagesPage.dialogs}
-                                                 newMessage={state.messagesPage.newMessage}
-                                                messages={state.messagesPage.messages}
-                                                 dispatch={props.store.dispatch.bind(props.store)}/>*/
                            }
                     />
                     <Route path='/users'
