@@ -5,3 +5,9 @@
 .header img {
     width: 20px;
 }
+.loginBlolck {
+    float: right;
+}
+.loginBlolck a {
+    color: white;
+}

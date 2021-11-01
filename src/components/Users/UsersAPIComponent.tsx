@@ -1,8 +1,8 @@
 import React from "react";
 import {usersPropsType} from "./UsersContainer";
-import axios from "axios";
 import {UsersType} from "../../redux/usersReducer";
 import UsersC from "./UsersC";
+import {UsersApi} from "../../api";
 
 
 
@@ -10,20 +10,20 @@ class UsersAPIComponent extends React.Component<usersPropsType, UsersType>{
 
     componentDidMount() {
         this.props.setFetching(true)
-        axios.get<any>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then((rec) => {
+        UsersApi.getUsers(this.props.currentPage,this.props.pageSize)
+            .then( data=> {
                 this.props.setFetching(false)
-                this.props.setUsers(rec.data.items)
-                this.props.setTotalUsersCount(rec.data.totalCount)
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
             })
     }
     onPageChanged=(pageNamber:number)=>{
         this.props.setFetching(true)
         this.props.setCurrentPage(pageNamber)
-        axios.get<any>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNamber}&count=${this.props.pageSize}`)
-            .then((rec) => {
+        UsersApi.getUsers(pageNamber,this.props.pageSize)
+            .then((data) => {
                 this.props.setFetching(false)
-                this.props.setUsers(rec.data.items)
+                this.props.setUsers(data.items)
             })
 
     }
@@ -41,6 +41,8 @@ class UsersAPIComponent extends React.Component<usersPropsType, UsersType>{
                        onPageChanged={this.onPageChanged}
                        isFetching={this.props.isFetching}
                        setFetching={this.props.setFetching}
+                       followingInProgress={this.props.followingInProgress}
+                       setFollowing={this.props.setFollowing}
         />
 
     }

@@ -15,7 +15,7 @@ class ProfileContainer extends React.Component<CommonPropsType,profilepostsType>
          if (!userId) {
              userId="9"
          }
-         axios.get<any>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+         axios.get<profileType>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
              .then((rec) => {
                  this.props.setUserProfile(rec.data)
              })

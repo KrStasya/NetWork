@@ -4,6 +4,9 @@ import styles from './Users.module.css'
 import userPhoto from '../asses/avatars/images.jpg'
 import {Preloader} from "../common/Preloader";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+import {usersauthpropstypeType} from "../../redux/authReducer";
+import {UsersApi} from "../../api";
 
 type usersAPIType={
     onPageChanged:(p:number)=>void
@@ -39,11 +42,25 @@ let UsersC=(props: usersPropsType&usersAPIType)=> {
     </div>
     <div>
         {m.followed
-            ? <button onClick={() => {
-                props.changefollowfalse(m.id)
+            ? <button disabled={props.followingInProgress.some(id=>id===m.id)} onClick={() => {
+                props.setFollowing(true, m.id)
+                UsersApi.deleteUserFromFriends(m.id)
+                    .then((res) => {
+                        if (res.data.resultCode===0) {
+                            props.changefollowfalse(m.id)
+                        }
+                        props.setFollowing(false, m.id)
+                    })
             }}>UnFollow</button>
-            : <button onClick={() => {
-                props.changefollowtrue(m.id)
+            : <button disabled={props.followingInProgress.some(id=>id===m.id)} onClick={() => {
+                props.setFollowing(true, m.id)
+                UsersApi.addUserForFriends(m.id)
+                    .then((res) => {
+                        if (res.data.resultCode===0) {
+                            props.changefollowtrue(m.id)
+                        }
+                        props.setFollowing(false, m.id)
+                    })
             }}>Follow</button>}
     </div>
 </span>

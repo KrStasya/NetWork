@@ -5,7 +5,7 @@ import {
     changefollowfalse,
     changefollowtrue,
     setCurrentPage,
-    setFetching,
+    setFetching, setFollowing,
     setTotalUsersCount,
     setUsers,
     UsersType,
@@ -20,6 +20,7 @@ type mapStateToPropsType={
     totalUsersCount:number
     currentPage:number
     isFetching:boolean
+    followingInProgress: Array<number>
 }
 
 type mapDispatchToPropsType ={
@@ -29,6 +30,7 @@ type mapDispatchToPropsType ={
     setCurrentPage:(currentPage:number)=>void
     setTotalUsersCount:(totalCount:number)=>void
     setFetching:(isFetching:boolean)=>void
+    setFollowing:(isFetching:boolean,userId:number)=>void
 }
 
 export type usersPropsType =mapStateToPropsType&mapDispatchToPropsType
@@ -40,6 +42,7 @@ export type usersPropsType =mapStateToPropsType&mapDispatchToPropsType
             totalUsersCount: state.usersPage.totalUsersCount,
             currentPage:state.usersPage.currentPage,
             isFetching: state.usersPage.isFetching,
+            followingInProgress:state.usersPage.followingInProgress
         }
     }
 
@@ -50,6 +53,7 @@ export type usersPropsType =mapStateToPropsType&mapDispatchToPropsType
      setCurrentPage,
      setTotalUsersCount,
      setFetching,
+     setFollowing
      })
  (UsersAPIComponent);
 
