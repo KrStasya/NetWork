@@ -3,7 +3,6 @@ import {usersPropsType} from "./UsersContainer";
 import styles from './Users.module.css'
 import userPhoto from '../asses/avatars/images.jpg'
 import {Preloader} from "../common/Preloader";
-import Navbar from "../Navbar/Navbar";
 import { NavLink } from "react-router-dom";
 
 type usersAPIType={
@@ -34,7 +33,7 @@ let UsersC=(props: usersPropsType&usersAPIType)=> {
         {props.usersPage.users.map(m => <div key={m.id}>
 <span>
     <div>
-        <NavLink to={'/profile'+m.id}>
+        <NavLink to={'/profile/'+m.id}>
             <img src={m.photos.small !== null ? m.photos.small : userPhoto} className={styles.avatar}/>
         </NavLink>
     </div>
