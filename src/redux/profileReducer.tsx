@@ -1,5 +1,8 @@
 //mport {ActionType} from "./store";
 import {AddMessageACActionType, newMessageChangeAddACActionType} from "./dialogReducer";
+import {Dispatch} from "redux";
+import {UsersApi} from "../api";
+import {setUserAuthAC} from "./authReducer";
 
 export type ActionType=AddPostActionType |
                        ChangeNewTextActionType |
@@ -114,6 +117,15 @@ export const setUserProfile=(profile:any)=>{
         type : 'SET-USER-PROFILE',
         profile
     } as const
+}
+
+export const getUserProfile=(userId:number)=>{
+    return (dispatch: Dispatch)=>{
+        UsersApi.getUserProfile(userId)
+            .then((rec) => {
+                dispatch(setUserProfile(rec.data))
+            })
+}
 }
 
 export type AddPostActionType=ReturnType<typeof addPostAC>

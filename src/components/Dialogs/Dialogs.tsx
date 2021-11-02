@@ -3,6 +3,7 @@ import classes from './Dialogs.module.css'
 import Message from "./Message/Message";
 import DialogItem from "./DialogItem/DialogItem";
 import {dialigPropsType} from "./DialogsContainer";
+import { Redirect } from "react-router-dom";
 
 
 
@@ -18,7 +19,7 @@ const Dialogs = (props: dialigPropsType ) => {
         props.AddMessage()
         //props.dispatch(addMessageAC(props.newMessage))
     }
-
+        if (!props.isAuth) return <Redirect to={'/login'}/>
         return (
             <div className={classes.dialogs}>
                 <div className={classes.dialogItems}>

@@ -1,3 +1,6 @@
+import {UsersApi} from "../api";
+import {Dispatch} from "redux";
+
 export type usersauthpropstypeType ={
     data: dataType
     resultCode: number
@@ -5,16 +8,16 @@ export type usersauthpropstypeType ={
     isAuth: boolean
 }
 export type dataType={
-    id: number | null
-    email: string | null
-    login: string | null
+    id: number
+    email: string
+    login: string
 }
 
 const initialState:usersauthpropstypeType={
     data: {
-        id: null,
-        email: null,
-        login: null,
+        id: 1,
+        email: "null",
+        login: "null",
     },
     resultCode: 0,
     messages: [],
@@ -43,6 +46,20 @@ export const setUserAuthAC=(id:number,email:string,login:string)=>{
         data: {id, email,login}
     }as const
 }
+
+export const getUserAuth=(id:number,email:string,login:string)=> {
+    return (dispatch: Dispatch) => {
+        UsersApi.getAuth()
+            .then((res) => {
+                if (res.data.resultCode===0) {
+                    let {id, email,login}=res.data.data
+                    dispatch(setUserAuthAC(id, email,login))
+                }
+            })
+    }
+}
+
+
 
 export type setUserAuthActionType=ReturnType<typeof setUserAuthAC>
 

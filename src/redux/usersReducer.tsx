@@ -1,3 +1,7 @@
+import {UsersApi} from "../api";
+import {Dispatch} from "redux";
+import {AppRootType} from "./reduxstore";
+
 export type ActionType = followAType |
     unfollowAType |
     setUsersAType |
@@ -5,6 +9,15 @@ export type ActionType = followAType |
     setTotalUsersCountType|
     FetchingType |
     setFollowingType
+
+export type followAType=ReturnType<typeof changefollowtrue>
+export type unfollowAType=ReturnType<typeof changefollowfalse>
+export type setUsersAType=ReturnType<typeof setUsers>
+export type setCurrentPageType=ReturnType<typeof setCurrentPage>
+export type setTotalUsersCountType=ReturnType<typeof setTotalUsersCount>
+export type FetchingType=ReturnType<typeof setFetching>
+export type setFollowingType=ReturnType<typeof setFollowing>
+
 
 export type UsersType ={
     users: Array<userType>
@@ -111,11 +124,49 @@ export const setFollowing=(isFetching: boolean, userId:number)=>{
 }
 
 
+export const getUsers=(currentPage:number,pageSize:number)=>{
+    return (dispatch:Dispatch)=>{
+        dispatch(setFetching(true))
+        UsersApi.getUsers(currentPage,pageSize)
+            .then( data=> {
+                dispatch(setFetching(false))
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+    }
+}
 
-export type followAType=ReturnType<typeof changefollowtrue>
-export type unfollowAType=ReturnType<typeof changefollowfalse>
-export type setUsersAType=ReturnType<typeof setUsers>
-export type setCurrentPageType=ReturnType<typeof setCurrentPage>
-export type setTotalUsersCountType=ReturnType<typeof setTotalUsersCount>
-export type FetchingType=ReturnType<typeof setFetching>
-export type setFollowingType=ReturnType<typeof setFollowing>
+export const follow=(id:number)=> {
+    return (dispatch: Dispatch) => {
+        dispatch(setFollowing(true, id))
+        UsersApi.addUserForFriends(id)
+            .then((res) => {
+                if (res.data.resultCode===0) {
+                   dispatch(changefollowtrue(id))
+                }
+                dispatch(setFollowing(false, id))
+            })
+    }
+}
+
+export const unfollow=(id:number)=> {
+    return (dispatch: Dispatch) => {
+        dispatch(setFollowing(true, id))
+        UsersApi.deleteUserFromFriends(id)
+            .then((res) => {
+                if (res.data.resultCode===0) {
+                    dispatch(changefollowfalse(id))
+                }
+                dispatch(setFollowing(false, id))
+            })
+    }
+}
+
+
+
+
+//type ThunkType = ThunkAction<void, AppRootType, unknown, TodoActionType>
+
+
+
+
